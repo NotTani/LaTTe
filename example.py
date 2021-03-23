@@ -1,8 +1,8 @@
 from latte.core import Parser
-from latte.extend import Block
+from latte.extend import InlineBlock
 
 
-class XkcdBlock(Block):
+class XkcdBlock(InlineBlock):
     name = "xkcd"
     re = r"%xkcd (.*)%"
 
