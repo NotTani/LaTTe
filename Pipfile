@@ -5,6 +5,7 @@ name = "pypi"
 
 [packages]
 markdown = "*"
+ply = "*"
 
 [dev-packages]
 
