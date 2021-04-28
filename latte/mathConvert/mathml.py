@@ -22,6 +22,14 @@ def create_element(tag, text=None, attributes=None, children=()):
     return element
 
 
+def mrow(element):
+    if element.tag == 'mrow':
+        return element
+
+    el = create_element('mrow')
+    el.append(element)
+    return el
+
 class MathProcessor(BlockConverter):
     BLOCK_NAME = "math"
 
@@ -57,7 +65,7 @@ class LaTTeMathML:
             mstyle = {}
 
         self.tree = Element('math')
-        self._current_el_stack.append(self.tree)
+        self._current_el.append(self.tree)
 
         if inline:
             self.tree.set('display', 'inline')
@@ -67,7 +75,7 @@ class LaTTeMathML:
         if mstyle:
             mstyle = Element('mstyle', **mstyle)
             self.tree.append(mstyle)
-            self._current_el_stack = mstyle
+            self._current_el = mstyle
 
         self.tree.set('xmlns', mathml_ns)
 
@@ -75,7 +83,7 @@ class LaTTeMathML:
         return str(self.tree)
 
     def _add_el(self, el):
-        self._current_el_stack.append(el)
+        self._current_el.append(el)
 
     def _get_parent(self, child, tree=None):
         # because etree doesn't have a _get_parent element
@@ -104,7 +112,7 @@ class LaTTeMathML:
         """
         number_el = create_element('mf')
 
-        if self._current_el_stack[-1].tag in self.MROW_GROUPS:
+        if self._current_el[-1].tag in self.MROW_GROUPS:
             el = create_element('mrow')
 
         return
@@ -115,11 +123,11 @@ class LaTTeMathML:
 
         Add text to the currently active element
         """
-        current_text = self._current_el_stack[-1].text
+        current_text = self._current_el[-1].text
         if not current_text:
-            self._current_el_stack[-1].text = ""
+            self._current_el[-1].text = ""
 
-        self._current_el_stack[-1].text += text
+        self._current_el[-1].text += text
 
     def _add_text_el(self, text=None):
         """
@@ -132,9 +140,32 @@ class LaTTeMathML:
             el.text = text
         self._add_el(el)
 
+    def _start_fraction(self):
+        self._current_el.append(
+            create_element('mfrac')
+        )
+
+    def _add_subscript(self, base, subscript):
+        self._add_el(mrow(
+            create_element('msub', children=(
+                mrow(base),
+                mrow(subscript)
+            ))
+        ))
+
+    def _add_superscript(self, base, superscript):
+        self._add_el(mrow(
+            create_element('msup', children=(
+                mrow(base),
+                mrow(superscript)
+            ))
+        ))
+
+    def _add_symbol(self, text):
+        self._add_el(create_element('mo', '&{};'.format(text)))
+
     def addBody(self, body):
         """
         A filler method because parser isn't done
         """
-        self._add_text_el("This is text")
         self._add_number_el(2)

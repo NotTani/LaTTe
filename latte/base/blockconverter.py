@@ -1,5 +1,4 @@
 # Block Converter Processor
-import abc
 
 class BlockConverter:
     BLOCK_NAME = None
@@ -7,7 +6,7 @@ class BlockConverter:
     BLOCK_LEVEL = True
     INLINE = True
 
-    def __init__(self, body, embedded=False, **args):
+    def __init__(self, body: str, embedded=False, **args):
         self.body = body
         self.embedded = embedded
         self.args = args
@@ -15,7 +14,7 @@ class BlockConverter:
     def __str__(self):
         return f"<{self.__class__.__name__} {self.args}>"
 
-    def convertHTML(self, body, embedded=False, **args):
+    def convertHTML(self, body: str, embedded=False, **args):
         raise NotImplementedError(
             f"Block {self.__class__.__name__} doesn't have a convertHTML method"
         )

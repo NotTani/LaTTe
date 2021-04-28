@@ -1,11 +1,11 @@
-import xml.etree.ElementTree as ETree
+from .mathConvert.mathml import LaTTeMathML
 from markdown.inlinepatterns import InlineProcessor
 
 
 class MathInlineProcessor(InlineProcessor):
-    PATTERN = r"{{(..*)}}"
+    PATTERN = r"{{(?P<inner>..*)}}"
 
     def handleMatch(self, m, data):
-        el = ETree.Element('div')
-        el.text = f'Math: {m.group(1)}'
-        return el, m.start(0), m.end(0)
+        lml = LaTTeMathML(inline=True)
+        lml.addBody(m.group('inner'))
+        return lml.tree, m.start(0), m.end(0)
