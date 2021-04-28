@@ -1,5 +1,5 @@
 # mathml.py - converts a LaTTe Math AST into MathML Markup
-from xml.etree.ElementTree import Element
+from xml.etree.ElementTree import Element, tostring
 from base.blockconverter import BlockConverter
 
 
@@ -65,7 +65,7 @@ class LaTTeMathML:
             mstyle = {}
 
         self.tree = Element('math')
-        self._current_el.append(self.tree)
+        self._current_el = [self.tree]
 
         if inline:
             self.tree.set('display', 'inline')
@@ -74,16 +74,26 @@ class LaTTeMathML:
 
         if mstyle:
             mstyle = Element('mstyle', **mstyle)
-            self.tree.append(mstyle)
-            self._current_el = mstyle
+            self._add_el(mstyle)
+
+        self.mrow_all = False
+
+        self._current_el_needs = -1
 
         self.tree.set('xmlns', mathml_ns)
 
     def __str__(self):
-        return str(self.tree)
+        return tostring(self.tree)
 
     def _add_el(self, el):
+        if self._current_el[-1].tag == self.MROW_GROUPS:
+            el = mrow(el)
+        if self._current_el_needs > 0:
+            self._current_el_needs -= 1
         self._current_el.append(el)
+
+    def _set_current_els(self, consume):
+        self._current_el_needs = consume
 
     def _get_parent(self, child, tree=None):
         # because etree doesn't have a _get_parent element
@@ -99,23 +109,7 @@ class LaTTeMathML:
 
         Adds an <mn> element to the tree
         """
-        if number < 0:
-            self._add_negative_number_el(number)
-        else:
-            self._add_el(create_element('mn', str(number)))
-
-    def _add_negative_number_el(self, number):
-        """
-        number: negative number to add
-
-        Adds a negative number to the tree
-        """
-        number_el = create_element('mf')
-
-        if self._current_el[-1].tag in self.MROW_GROUPS:
-            el = create_element('mrow')
-
-        return
+        self._add_el(create_element('mn', str(number)))
 
     def _add_text_to_current_el(self, text):
         """
@@ -146,6 +140,7 @@ class LaTTeMathML:
         )
 
     def _add_subscript(self, base, subscript):
+        self._set_current_els(2)
         self._add_el(mrow(
             create_element('msub', children=(
                 mrow(base),
@@ -154,6 +149,7 @@ class LaTTeMathML:
         ))
 
     def _add_superscript(self, base, superscript):
+        self._set_current_els(2)
         self._add_el(mrow(
             create_element('msup', children=(
                 mrow(base),
