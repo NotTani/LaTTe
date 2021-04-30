@@ -30,6 +30,7 @@ def mrow(element):
     el.append(element)
     return el
 
+
 class MathProcessor(BlockConverter):
     BLOCK_NAME = "math"
 
@@ -88,15 +89,19 @@ class LaTTeMathML:
     def _add_el(self, el):
         if self._current_el[-1].tag == self.MROW_GROUPS:
             el = mrow(el)
-        if self._current_el_needs > 0:
+        if self._current_el_needs >= 0:
+            if self._current_el_needs == 0:
+                self._current_el.pop()
             self._current_el_needs -= 1
         self._current_el.append(el)
 
-    def _set_current_els(self, consume):
+    def _set_append_el(self, el, consume):
+        self.tree.append(el)
+        self._current_el.append(el)
         self._current_el_needs = consume
 
     def _get_parent(self, child, tree=None):
-        # because etree doesn't have a _get_parent element
+        # because etree doesn't have a _get_parent element for some godshdang reason
         if not tree:
             tree = self.tree
 
@@ -140,7 +145,7 @@ class LaTTeMathML:
         )
 
     def _add_subscript(self, base, subscript):
-        self._set_current_els(2)
+        self._consume(2)
         self._add_el(mrow(
             create_element('msub', children=(
                 mrow(base),
@@ -149,7 +154,7 @@ class LaTTeMathML:
         ))
 
     def _add_superscript(self, base, superscript):
-        self._set_current_els(2)
+        self._consume(2)
         self._add_el(mrow(
             create_element('msup', children=(
                 mrow(base),
@@ -164,4 +169,6 @@ class LaTTeMathML:
         """
         A filler method because parser isn't done
         """
+        self._start_fraction()
         self._add_number_el(2)
+        self._add_number_el(3)
