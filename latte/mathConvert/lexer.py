@@ -1,20 +1,31 @@
 import ply.lex as lex
 from ply.lex import TOKEN
+from mathConvert.mathml import InvalidLaTTeMath
+
+MATHEMATICAL_FUNCTIONS = [
+    'sin',
+    'cos',
+    'ceil',
+    'floor',
+    'abs',
+    'sqrt'
+]
 
 tokens = (
+    "MATHEMATICAL_ID",
     "NUMBER",
+    "EQUALS",
+    "POWER",
+    "SUBSCRIPT",
     "ENTITY",
 
-    "MATHEMATICAL_ID",
+    "ADDSUB_OP",
+    "DIV_OP",
+    "MULT_OP",
+    "SYMBOL",
     "CONTROL_ID",
-    "GENERIC_ID",
     "OPEN_PAREN",
     "CLOSE_PAREN",
-
-    "PLUS",
-    "MINUS",
-    "DIV",
-    "MULTI"
 )
 
 parens = {
@@ -32,19 +43,20 @@ def t_NUMBER(t):
 @TOKEN(r'&(?P<entity_name>.+);')
 def t_ENTITY(t):
     t.value = t.lexer.lexmatch.group('entity_name')
+    if t.value == "+" or "-":
+        t.type = "OP_ADDSUB"
+    elif t.value == "*":
+        t.type = "OP_MULT"
+    elif t.value == "/":
+        t.type = "OP_DIV"
     return t
 
 
-@TOKEN(r'(?P<n>:?[a-zA-Z]+)')
-def t_GENERIC_ID(t):
-    n = t.lexer.lexmatch.group('n')
-    if n.startswith(':'):
-        t.type = "CONTROL_ID"
-        n = n[1:]
-    else:
-        t.type = "GENERIC_ID"
-    t.value = n
-    return t
+t_MATHEMATICAL_ID = '(sin)|(cos)|(ceil)|(floor)|(abs)'
+t_SYMBOL = r'(?P<n>[a-zA-Z])'
+t_POWER = r'\^'
+t_SUBSCRIPT = r'_'
+t_CONTROL_ID = '(?P<n>:[a-zA-Z]+)'
 
 
 @TOKEN(r'\ +')
@@ -52,29 +64,37 @@ def t_SPACE(_):
     pass
 
 
-@TOKEN(r'(?P<o>\+\-\/\*)')
+@TOKEN(r'(?P<o>[\+\-\/\*])')
 def t_OP(t):
-    op = t.lexer.lexmatch.group('o')
-    if op == '+':
-        t.type = "PLUS"
-    elif op == '-':
-        t.type = "MINUS"
-    elif op == '/':
-        t.type = "DIV"
-    elif op == '*':
-        t.type = 'MULTI'
-
+    t.value = t.lexer.lexmatch.group('o')
+    if t.value == '+' or t.value == '-':
+        t.type = "ADDSUB_OP"
+    elif t.value == '*':
+        t.type = "MULT_OP"
+    elif t.value == '/':
+        t.type = "DIV_OP"
     return t
-
-
-@TOKEN(r'[' +
-       ''.join([r'\\' + tok for tok, _ in parens.keys()]) +
-       ''.join([r'\\' + tok for _, tok in parens.values()]) + r']')
-def t_PAREN(t):
-    pass
 
 
 t_OPEN_PAREN = r'\('
 t_CLOSE_PAREN = r'\)'
+t_EQUALS = r'='
+
+
+# def t_error(error):
+#     raise InvalidLaTTeMath(error)
+
 
 lexer = lex.lex()
+
+
+def tokenize(inp):
+    lexer.input(inp)
+    toks = []
+    while True:
+        token = lexer.token()
+        if not token:
+            break
+        toks.append(token)
+
+    return toks
