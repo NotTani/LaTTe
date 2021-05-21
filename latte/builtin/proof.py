@@ -1,6 +1,6 @@
-from base.blockconverter import BlockConverter
+from base.block import Block
 
-class ProofBlock(BlockConverter):
+class ProofBlock(Block):
     symbols = {
         'for all': '',
         'and': '',
@@ -10,4 +10,4 @@ class ProofBlock(BlockConverter):
         'beta': 'beta',
         'gamma': 'gamma'
     }
-    def convertHTML(self, body: str, embedded=False, **args):
+    def html(self, body: str, embedded=False, **args):
