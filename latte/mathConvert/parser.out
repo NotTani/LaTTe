@@ -1,0 +1,471 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Unused terminals:
+
+    CONTROL_ID
+    ENTITY
+
+Grammar
+
+Rule 0     S' -> expression
+Rule 1     expression -> expression EQUALS expression
+Rule 2     expression -> expression ADDSUB_OP term
+Rule 3     expression -> term
+Rule 4     term -> term MULT_OP factor
+Rule 5     term -> term DIV_OP factor
+Rule 6     term -> factor
+Rule 7     factor -> factor POWER factor
+Rule 8     factor -> factor SUBSCRIPT factor
+Rule 9     factor -> NUMBER
+Rule 10    factor -> SYMBOL
+Rule 11    factor -> MATHEMATICAL_ID OPEN_PAREN term CLOSE_PAREN
+Rule 12    factor -> OPEN_PAREN expression CLOSE_PAREN
+
+Terminals, with rules where they appear
+
+ADDSUB_OP            : 2
+CLOSE_PAREN          : 11 12
+CONTROL_ID           : 
+DIV_OP               : 5
+ENTITY               : 
+EQUALS               : 1
+MATHEMATICAL_ID      : 11
+MULT_OP              : 4
+NUMBER               : 9
+OPEN_PAREN           : 11 12
+POWER                : 7
+SUBSCRIPT            : 8
+SYMBOL               : 10
+error                : 
+
+Nonterminals, with rules where they appear
+
+expression           : 1 1 2 12 0
+factor               : 4 5 6 7 7 8 8
+term                 : 2 3 4 5 11
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . expression
+    (1) expression -> . expression EQUALS expression
+    (2) expression -> . expression ADDSUB_OP term
+    (3) expression -> . term
+    (4) term -> . term MULT_OP factor
+    (5) term -> . term DIV_OP factor
+    (6) term -> . factor
+    (7) factor -> . factor POWER factor
+    (8) factor -> . factor SUBSCRIPT factor
+    (9) factor -> . NUMBER
+    (10) factor -> . SYMBOL
+    (11) factor -> . MATHEMATICAL_ID OPEN_PAREN term CLOSE_PAREN
+    (12) factor -> . OPEN_PAREN expression CLOSE_PAREN
+
+    NUMBER          shift and go to state 4
+    SYMBOL          shift and go to state 5
+    MATHEMATICAL_ID shift and go to state 6
+    OPEN_PAREN      shift and go to state 7
+
+    expression                     shift and go to state 1
+    term                           shift and go to state 2
+    factor                         shift and go to state 3
+
+state 1
+
+    (0) S' -> expression .
+    (1) expression -> expression . EQUALS expression
+    (2) expression -> expression . ADDSUB_OP term
+
+    EQUALS          shift and go to state 8
+    ADDSUB_OP       shift and go to state 9
+
+
+state 2
+
+    (3) expression -> term .
+    (4) term -> term . MULT_OP factor
+    (5) term -> term . DIV_OP factor
+
+    EQUALS          reduce using rule 3 (expression -> term .)
+    ADDSUB_OP       reduce using rule 3 (expression -> term .)
+    $end            reduce using rule 3 (expression -> term .)
+    CLOSE_PAREN     reduce using rule 3 (expression -> term .)
+    MULT_OP         shift and go to state 10
+    DIV_OP          shift and go to state 11
+
+
+state 3
+
+    (6) term -> factor .
+    (7) factor -> factor . POWER factor
+    (8) factor -> factor . SUBSCRIPT factor
+
+    MULT_OP         reduce using rule 6 (term -> factor .)
+    DIV_OP          reduce using rule 6 (term -> factor .)
+    EQUALS          reduce using rule 6 (term -> factor .)
+    ADDSUB_OP       reduce using rule 6 (term -> factor .)
+    $end            reduce using rule 6 (term -> factor .)
+    CLOSE_PAREN     reduce using rule 6 (term -> factor .)
+    POWER           shift and go to state 12
+    SUBSCRIPT       shift and go to state 13
+
+
+state 4
+
+    (9) factor -> NUMBER .
+
+    POWER           reduce using rule 9 (factor -> NUMBER .)
+    SUBSCRIPT       reduce using rule 9 (factor -> NUMBER .)
+    MULT_OP         reduce using rule 9 (factor -> NUMBER .)
+    DIV_OP          reduce using rule 9 (factor -> NUMBER .)
+    EQUALS          reduce using rule 9 (factor -> NUMBER .)
+    ADDSUB_OP       reduce using rule 9 (factor -> NUMBER .)
+    $end            reduce using rule 9 (factor -> NUMBER .)
+    CLOSE_PAREN     reduce using rule 9 (factor -> NUMBER .)
+
+
+state 5
+
+    (10) factor -> SYMBOL .
+
+    POWER           reduce using rule 10 (factor -> SYMBOL .)
+    SUBSCRIPT       reduce using rule 10 (factor -> SYMBOL .)
+    MULT_OP         reduce using rule 10 (factor -> SYMBOL .)
+    DIV_OP          reduce using rule 10 (factor -> SYMBOL .)
+    EQUALS          reduce using rule 10 (factor -> SYMBOL .)
+    ADDSUB_OP       reduce using rule 10 (factor -> SYMBOL .)
+    $end            reduce using rule 10 (factor -> SYMBOL .)
+    CLOSE_PAREN     reduce using rule 10 (factor -> SYMBOL .)
+
+
+state 6
+
+    (11) factor -> MATHEMATICAL_ID . OPEN_PAREN term CLOSE_PAREN
+
+    OPEN_PAREN      shift and go to state 14
+
+
+state 7
+
+    (12) factor -> OPEN_PAREN . expression CLOSE_PAREN
+    (1) expression -> . expression EQUALS expression
+    (2) expression -> . expression ADDSUB_OP term
+    (3) expression -> . term
+    (4) term -> . term MULT_OP factor
+    (5) term -> . term DIV_OP factor
+    (6) term -> . factor
+    (7) factor -> . factor POWER factor
+    (8) factor -> . factor SUBSCRIPT factor
+    (9) factor -> . NUMBER
+    (10) factor -> . SYMBOL
+    (11) factor -> . MATHEMATICAL_ID OPEN_PAREN term CLOSE_PAREN
+    (12) factor -> . OPEN_PAREN expression CLOSE_PAREN
+
+    NUMBER          shift and go to state 4
+    SYMBOL          shift and go to state 5
+    MATHEMATICAL_ID shift and go to state 6
+    OPEN_PAREN      shift and go to state 7
+
+    expression                     shift and go to state 15
+    term                           shift and go to state 2
+    factor                         shift and go to state 3
+
+state 8
+
+    (1) expression -> expression EQUALS . expression
+    (1) expression -> . expression EQUALS expression
+    (2) expression -> . expression ADDSUB_OP term
+    (3) expression -> . term
+    (4) term -> . term MULT_OP factor
+    (5) term -> . term DIV_OP factor
+    (6) term -> . factor
+    (7) factor -> . factor POWER factor
+    (8) factor -> . factor SUBSCRIPT factor
+    (9) factor -> . NUMBER
+    (10) factor -> . SYMBOL
+    (11) factor -> . MATHEMATICAL_ID OPEN_PAREN term CLOSE_PAREN
+    (12) factor -> . OPEN_PAREN expression CLOSE_PAREN
+
+    NUMBER          shift and go to state 4
+    SYMBOL          shift and go to state 5
+    MATHEMATICAL_ID shift and go to state 6
+    OPEN_PAREN      shift and go to state 7
+
+    expression                     shift and go to state 16
+    term                           shift and go to state 2
+    factor                         shift and go to state 3
+
+state 9
+
+    (2) expression -> expression ADDSUB_OP . term
+    (4) term -> . term MULT_OP factor
+    (5) term -> . term DIV_OP factor
+    (6) term -> . factor
+    (7) factor -> . factor POWER factor
+    (8) factor -> . factor SUBSCRIPT factor
+    (9) factor -> . NUMBER
+    (10) factor -> . SYMBOL
+    (11) factor -> . MATHEMATICAL_ID OPEN_PAREN term CLOSE_PAREN
+    (12) factor -> . OPEN_PAREN expression CLOSE_PAREN
+
+    NUMBER          shift and go to state 4
+    SYMBOL          shift and go to state 5
+    MATHEMATICAL_ID shift and go to state 6
+    OPEN_PAREN      shift and go to state 7
+
+    term                           shift and go to state 17
+    factor                         shift and go to state 3
+
+state 10
+
+    (4) term -> term MULT_OP . factor
+    (7) factor -> . factor POWER factor
+    (8) factor -> . factor SUBSCRIPT factor
+    (9) factor -> . NUMBER
+    (10) factor -> . SYMBOL
+    (11) factor -> . MATHEMATICAL_ID OPEN_PAREN term CLOSE_PAREN
+    (12) factor -> . OPEN_PAREN expression CLOSE_PAREN
+
+    NUMBER          shift and go to state 4
+    SYMBOL          shift and go to state 5
+    MATHEMATICAL_ID shift and go to state 6
+    OPEN_PAREN      shift and go to state 7
+
+    factor                         shift and go to state 18
+
+state 11
+
+    (5) term -> term DIV_OP . factor
+    (7) factor -> . factor POWER factor
+    (8) factor -> . factor SUBSCRIPT factor
+    (9) factor -> . NUMBER
+    (10) factor -> . SYMBOL
+    (11) factor -> . MATHEMATICAL_ID OPEN_PAREN term CLOSE_PAREN
+    (12) factor -> . OPEN_PAREN expression CLOSE_PAREN
+
+    NUMBER          shift and go to state 4
+    SYMBOL          shift and go to state 5
+    MATHEMATICAL_ID shift and go to state 6
+    OPEN_PAREN      shift and go to state 7
+
+    factor                         shift and go to state 19
+
+state 12
+
+    (7) factor -> factor POWER . factor
+    (7) factor -> . factor POWER factor
+    (8) factor -> . factor SUBSCRIPT factor
+    (9) factor -> . NUMBER
+    (10) factor -> . SYMBOL
+    (11) factor -> . MATHEMATICAL_ID OPEN_PAREN term CLOSE_PAREN
+    (12) factor -> . OPEN_PAREN expression CLOSE_PAREN
+
+    NUMBER          shift and go to state 4
+    SYMBOL          shift and go to state 5
+    MATHEMATICAL_ID shift and go to state 6
+    OPEN_PAREN      shift and go to state 7
+
+    factor                         shift and go to state 20
+
+state 13
+
+    (8) factor -> factor SUBSCRIPT . factor
+    (7) factor -> . factor POWER factor
+    (8) factor -> . factor SUBSCRIPT factor
+    (9) factor -> . NUMBER
+    (10) factor -> . SYMBOL
+    (11) factor -> . MATHEMATICAL_ID OPEN_PAREN term CLOSE_PAREN
+    (12) factor -> . OPEN_PAREN expression CLOSE_PAREN
+
+    NUMBER          shift and go to state 4
+    SYMBOL          shift and go to state 5
+    MATHEMATICAL_ID shift and go to state 6
+    OPEN_PAREN      shift and go to state 7
+
+    factor                         shift and go to state 21
+
+state 14
+
+    (11) factor -> MATHEMATICAL_ID OPEN_PAREN . term CLOSE_PAREN
+    (4) term -> . term MULT_OP factor
+    (5) term -> . term DIV_OP factor
+    (6) term -> . factor
+    (7) factor -> . factor POWER factor
+    (8) factor -> . factor SUBSCRIPT factor
+    (9) factor -> . NUMBER
+    (10) factor -> . SYMBOL
+    (11) factor -> . MATHEMATICAL_ID OPEN_PAREN term CLOSE_PAREN
+    (12) factor -> . OPEN_PAREN expression CLOSE_PAREN
+
+    NUMBER          shift and go to state 4
+    SYMBOL          shift and go to state 5
+    MATHEMATICAL_ID shift and go to state 6
+    OPEN_PAREN      shift and go to state 7
+
+    term                           shift and go to state 22
+    factor                         shift and go to state 3
+
+state 15
+
+    (12) factor -> OPEN_PAREN expression . CLOSE_PAREN
+    (1) expression -> expression . EQUALS expression
+    (2) expression -> expression . ADDSUB_OP term
+
+    CLOSE_PAREN     shift and go to state 23
+    EQUALS          shift and go to state 8
+    ADDSUB_OP       shift and go to state 9
+
+
+state 16
+
+    (1) expression -> expression EQUALS expression .
+    (1) expression -> expression . EQUALS expression
+    (2) expression -> expression . ADDSUB_OP term
+
+  ! shift/reduce conflict for EQUALS resolved as shift
+  ! shift/reduce conflict for ADDSUB_OP resolved as shift
+    $end            reduce using rule 1 (expression -> expression EQUALS expression .)
+    CLOSE_PAREN     reduce using rule 1 (expression -> expression EQUALS expression .)
+    EQUALS          shift and go to state 8
+    ADDSUB_OP       shift and go to state 9
+
+  ! EQUALS          [ reduce using rule 1 (expression -> expression EQUALS expression .) ]
+  ! ADDSUB_OP       [ reduce using rule 1 (expression -> expression EQUALS expression .) ]
+
+
+state 17
+
+    (2) expression -> expression ADDSUB_OP term .
+    (4) term -> term . MULT_OP factor
+    (5) term -> term . DIV_OP factor
+
+    EQUALS          reduce using rule 2 (expression -> expression ADDSUB_OP term .)
+    ADDSUB_OP       reduce using rule 2 (expression -> expression ADDSUB_OP term .)
+    $end            reduce using rule 2 (expression -> expression ADDSUB_OP term .)
+    CLOSE_PAREN     reduce using rule 2 (expression -> expression ADDSUB_OP term .)
+    MULT_OP         shift and go to state 10
+    DIV_OP          shift and go to state 11
+
+
+state 18
+
+    (4) term -> term MULT_OP factor .
+    (7) factor -> factor . POWER factor
+    (8) factor -> factor . SUBSCRIPT factor
+
+    MULT_OP         reduce using rule 4 (term -> term MULT_OP factor .)
+    DIV_OP          reduce using rule 4 (term -> term MULT_OP factor .)
+    EQUALS          reduce using rule 4 (term -> term MULT_OP factor .)
+    ADDSUB_OP       reduce using rule 4 (term -> term MULT_OP factor .)
+    $end            reduce using rule 4 (term -> term MULT_OP factor .)
+    CLOSE_PAREN     reduce using rule 4 (term -> term MULT_OP factor .)
+    POWER           shift and go to state 12
+    SUBSCRIPT       shift and go to state 13
+
+
+state 19
+
+    (5) term -> term DIV_OP factor .
+    (7) factor -> factor . POWER factor
+    (8) factor -> factor . SUBSCRIPT factor
+
+    MULT_OP         reduce using rule 5 (term -> term DIV_OP factor .)
+    DIV_OP          reduce using rule 5 (term -> term DIV_OP factor .)
+    EQUALS          reduce using rule 5 (term -> term DIV_OP factor .)
+    ADDSUB_OP       reduce using rule 5 (term -> term DIV_OP factor .)
+    $end            reduce using rule 5 (term -> term DIV_OP factor .)
+    CLOSE_PAREN     reduce using rule 5 (term -> term DIV_OP factor .)
+    POWER           shift and go to state 12
+    SUBSCRIPT       shift and go to state 13
+
+
+state 20
+
+    (7) factor -> factor POWER factor .
+    (7) factor -> factor . POWER factor
+    (8) factor -> factor . SUBSCRIPT factor
+
+  ! shift/reduce conflict for POWER resolved as shift
+  ! shift/reduce conflict for SUBSCRIPT resolved as shift
+    MULT_OP         reduce using rule 7 (factor -> factor POWER factor .)
+    DIV_OP          reduce using rule 7 (factor -> factor POWER factor .)
+    EQUALS          reduce using rule 7 (factor -> factor POWER factor .)
+    ADDSUB_OP       reduce using rule 7 (factor -> factor POWER factor .)
+    $end            reduce using rule 7 (factor -> factor POWER factor .)
+    CLOSE_PAREN     reduce using rule 7 (factor -> factor POWER factor .)
+    POWER           shift and go to state 12
+    SUBSCRIPT       shift and go to state 13
+
+  ! POWER           [ reduce using rule 7 (factor -> factor POWER factor .) ]
+  ! SUBSCRIPT       [ reduce using rule 7 (factor -> factor POWER factor .) ]
+
+
+state 21
+
+    (8) factor -> factor SUBSCRIPT factor .
+    (7) factor -> factor . POWER factor
+    (8) factor -> factor . SUBSCRIPT factor
+
+  ! shift/reduce conflict for POWER resolved as shift
+  ! shift/reduce conflict for SUBSCRIPT resolved as shift
+    MULT_OP         reduce using rule 8 (factor -> factor SUBSCRIPT factor .)
+    DIV_OP          reduce using rule 8 (factor -> factor SUBSCRIPT factor .)
+    EQUALS          reduce using rule 8 (factor -> factor SUBSCRIPT factor .)
+    ADDSUB_OP       reduce using rule 8 (factor -> factor SUBSCRIPT factor .)
+    $end            reduce using rule 8 (factor -> factor SUBSCRIPT factor .)
+    CLOSE_PAREN     reduce using rule 8 (factor -> factor SUBSCRIPT factor .)
+    POWER           shift and go to state 12
+    SUBSCRIPT       shift and go to state 13
+
+  ! POWER           [ reduce using rule 8 (factor -> factor SUBSCRIPT factor .) ]
+  ! SUBSCRIPT       [ reduce using rule 8 (factor -> factor SUBSCRIPT factor .) ]
+
+
+state 22
+
+    (11) factor -> MATHEMATICAL_ID OPEN_PAREN term . CLOSE_PAREN
+    (4) term -> term . MULT_OP factor
+    (5) term -> term . DIV_OP factor
+
+    CLOSE_PAREN     shift and go to state 24
+    MULT_OP         shift and go to state 10
+    DIV_OP          shift and go to state 11
+
+
+state 23
+
+    (12) factor -> OPEN_PAREN expression CLOSE_PAREN .
+
+    POWER           reduce using rule 12 (factor -> OPEN_PAREN expression CLOSE_PAREN .)
+    SUBSCRIPT       reduce using rule 12 (factor -> OPEN_PAREN expression CLOSE_PAREN .)
+    MULT_OP         reduce using rule 12 (factor -> OPEN_PAREN expression CLOSE_PAREN .)
+    DIV_OP          reduce using rule 12 (factor -> OPEN_PAREN expression CLOSE_PAREN .)
+    EQUALS          reduce using rule 12 (factor -> OPEN_PAREN expression CLOSE_PAREN .)
+    ADDSUB_OP       reduce using rule 12 (factor -> OPEN_PAREN expression CLOSE_PAREN .)
+    $end            reduce using rule 12 (factor -> OPEN_PAREN expression CLOSE_PAREN .)
+    CLOSE_PAREN     reduce using rule 12 (factor -> OPEN_PAREN expression CLOSE_PAREN .)
+
+
+state 24
+
+    (11) factor -> MATHEMATICAL_ID OPEN_PAREN term CLOSE_PAREN .
+
+    POWER           reduce using rule 11 (factor -> MATHEMATICAL_ID OPEN_PAREN term CLOSE_PAREN .)
+    SUBSCRIPT       reduce using rule 11 (factor -> MATHEMATICAL_ID OPEN_PAREN term CLOSE_PAREN .)
+    MULT_OP         reduce using rule 11 (factor -> MATHEMATICAL_ID OPEN_PAREN term CLOSE_PAREN .)
+    DIV_OP          reduce using rule 11 (factor -> MATHEMATICAL_ID OPEN_PAREN term CLOSE_PAREN .)
+    EQUALS          reduce using rule 11 (factor -> MATHEMATICAL_ID OPEN_PAREN term CLOSE_PAREN .)
+    ADDSUB_OP       reduce using rule 11 (factor -> MATHEMATICAL_ID OPEN_PAREN term CLOSE_PAREN .)
+    $end            reduce using rule 11 (factor -> MATHEMATICAL_ID OPEN_PAREN term CLOSE_PAREN .)
+    CLOSE_PAREN     reduce using rule 11 (factor -> MATHEMATICAL_ID OPEN_PAREN term CLOSE_PAREN .)
+
+WARNING: 
+WARNING: Conflicts:
+WARNING: 
+WARNING: shift/reduce conflict for EQUALS in state 16 resolved as shift
+WARNING: shift/reduce conflict for ADDSUB_OP in state 16 resolved as shift
+WARNING: shift/reduce conflict for POWER in state 20 resolved as shift
+WARNING: shift/reduce conflict for SUBSCRIPT in state 20 resolved as shift
+WARNING: shift/reduce conflict for POWER in state 21 resolved as shift
+WARNING: shift/reduce conflict for SUBSCRIPT in state 21 resolved as shift
