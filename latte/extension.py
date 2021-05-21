@@ -16,6 +16,7 @@ class LaTTe(Extension):
 
     def registerLBlock(self, lblock):
         self.latteBlocks.append(lblock)
+        return self  # returns self for easy chaining
 
     def extendMarkdown(self, md: Markdown) -> None:
         md.preprocessors.register(
