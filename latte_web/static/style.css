@@ -1,0 +1,59 @@
+/* LaTTe.css */
+:root {
+    --accent-color: darkgrey;
+    --background-color: white;
+    --button-color: black;
+    --text-color: black;
+
+    --font: "CMU Serif", "Georgia", serif;
+    }
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    color: var(--text-color);
+    margin: 0;
+    min-height: 100vh;
+    font-family: var(--font);
+}
+
+.padded {
+    padding: 5px;
+}
+
+.flexible-width {
+    display: block;
+    width: 100%;
+}
+
+.constrain, .button-container {
+    max-width: 300px;
+    margin: auto;
+}
+
+body, .flex-container, .button-container {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.button-container {
+    width: 100%;
+}
+
+.button-container a {
+    border: 1px solid darkgrey;
+    background-color: black;
+    color: white;
+    display: block;
+    text-align: center;
+    text-decoration: none;
+    font-family: var(--font);
+    padding: 5px;
+    margin: 5px;
+    width: 100%;
+    border-radius: 15px;
+}

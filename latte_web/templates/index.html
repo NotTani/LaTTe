@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>LaTTe</title>
+    <link href="{{ url_for('static', filename="style.css") }}" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
+    <div class="flex-container padded">
+        <img class="flexable-width constrain" src="{{ url_for('static', filename='LaTTe.png') }}" alt="The LaTTe Project Logo">
+        <h4>The LaTTe Project</h4>
+        <div class="button-container">
+            <a href="{{ url_for('try_it') }}">Try it</a>
+            <a href="https://github.com/NotTani/LaTTe">Github</a>
+        </div>
+    </div>
+  </body>
+</html>
