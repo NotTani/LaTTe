@@ -2,7 +2,7 @@ from xml.etree.ElementTree import Element, tostring
 
 CHARMAP = {
     'plus or minus': 'plusmn',
-    'plus/minus': 'plusmn'
+    'pm': 'plusmn'
 }
 
 
