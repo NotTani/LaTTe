@@ -61,39 +61,49 @@ One extra concept is that of at (@) functions, which change the way things withi
 
 Ideally @ functions are not needed for most common math syntax, and they exist as either an entry point to custom mathematical functions or to when the LaTTe engine can’t quite figure out what you mean. The exception is fractions, as it’s generally a bad behavior to assume when you want fractions and when you don’t.
 
-```
-; Math is enclosed in double
-; curly braces. Add the d flag
-; for nicer display on a single
-; line
-{{y = f(x)}}
-; Superscripts are pretty simple:
+
+Math is enclosed in doublecurly braces. Add the d flag for nicer display on a single line:
+`d{{y = f(x)}}`
+
+d{{y = f(x)}}
+
+Superscripts are pretty simple:
+`{{3^2}}`
+
 {{3^2}}
 
 
 
-; As are subscripts
-{{3_n}}
-; You can use a display function
-; to do this as well
+As are subscripts: `{{a_n}}`
+
+{{a_n}}
+
+
+You can use a display function to do this as well: `{{3@sub(n)}}`
+
 {{3@sub(n)}}
 
-; Like square roots?
+
+Like square roots? `{{@sqrt(2)}}`
+
 {{@sqrt(2)}}
 
-; nRoots?
+
+nRoots? `{{@root(2, 5)}}`
+
 {{@root(2, 5)}}
 
-; Fractions look like this
-; Also note display mode
+
+; Fractions look like this `d{{@frac(1/2)}}
+
 d{{@frac(1/2)}}
 
-; They are also completely 
-; nestable
+They are also completely nestable `{{@frac(1/@frac(1/3))}}`
+
 {{@frac(1/@frac(1/3))}}
 
-; Absolute value is also fairly
-; simple, there are two ways:
+```latte
+; Absolute value is also fairly simple, there are two ways:
 {{|a|}}
 ; Or this
 {{@abs(a)}}
