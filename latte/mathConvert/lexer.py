@@ -1,6 +1,5 @@
 import ply.lex as lex
 from ply.lex import TOKEN
-from mathConvert.mathml import InvalidLaTTeMath
 
 MATHEMATICAL_FUNCTIONS = [
     'sin',
