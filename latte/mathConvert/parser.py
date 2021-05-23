@@ -28,7 +28,7 @@ def p_expression_term(p):
 
 @_rule('term : term MULT_OP factor')
 def p_term_multiply(p):
-    p[0] = mrow([p[0], operator(p[1]), p[2]])
+    p[0] = mrow([p[1], operator(p[2]), p[3]])
 
 
 @_rule('term : term DIV_OP factor')
@@ -61,7 +61,7 @@ def p_factor_symbol(p):
     p[0] = symbol(p[1])
 
 
-@_rule("factor : MATHEMATICAL_ID OPEN_PAREN term CLOSE_PAREN")
+@_rule("factor : MATHEMATICAL_ID OPEN_PAREN expression CLOSE_PAREN")
 def p_factor_func(p):
     if p[1] == 'sqrt':
         p[0] = sqrt(p[3])
@@ -74,10 +74,14 @@ def p_factor_func(p):
         ])
 
 
+@_rule('factor : ENTITY')
+def p_factor_entity(p):
+    p[0] = special_char(p[1])
+
+
 @_rule('factor : OPEN_PAREN expression CLOSE_PAREN')
 def p_factor_parenthetical(p):
     p[0] = mrow([operator('('), p[2], operator(')')])
-    print(p)
 
 
 parser = yacc.yacc()
