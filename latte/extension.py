@@ -1,5 +1,5 @@
 from .comments import CommentPreprocessor
-from .math import MathInlineProcessor
+from .mathInline import MathInlineProcessor
 
 from markdown import Markdown
 from markdown.extensions import Extension
