@@ -9,6 +9,5 @@ class MathInlineProcessor(InlineProcessor):
 
     def handleMatch(self, m, data):
         lml = LaTTeMathML(inline=False)
-        print(tokenize(m.group('inner')))
         lml.addBody(parser.parse(m.group('inner')))
         return lml.tree, m.start(0), m.end(0)
