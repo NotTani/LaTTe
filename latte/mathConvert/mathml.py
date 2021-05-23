@@ -65,6 +65,9 @@ class LaTTeMathML:
         return self
 
     def addBody(self, body):
-        print(type(body))
-        self.tree.append(body)
-        print(self)
+        self._add_el(body)
+        return self
+
+    @classmethod
+    def from_string(cls, input_):
+        return cls().addBody(parser.parse(input_))
