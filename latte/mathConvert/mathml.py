@@ -2,18 +2,7 @@
 from abc import ABC
 from xml.etree.ElementTree import Element, tostring
 from base.block import Block
-from mathConvert.mathml_elements import (
-    create_element,
-    number,
-    symbol,
-    operator,
-    fraction,
-    text,
-    sqrt,
-    superscript,
-    special_char,
-    subscript
-)
+from mathConvert.parser import parser
 
 
 class InvalidLaTTeMath(Exception):
@@ -73,6 +62,7 @@ class LaTTeMathML:
 
     def _add_el(self, el):
         self.tree.append(el)
+        return self
 
     def addBody(self, body):
         print(type(body))

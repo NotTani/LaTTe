@@ -10,17 +10,21 @@ def _rule(docstring):
 
     return decorator
 
+
 @_rule('expression : expression EQUALS expression')
 def p_expression_equals(p):
     p[0] = mrow([p[1], operator('='), p[3]])
+
 
 @_rule('expression : expression ADDSUB_OP term')
 def p_expression_addsub_op(p):
     p[0] = mrow([p[1], operator(p[2]), p[3]])
 
+
 @_rule('expression : term')
 def p_expression_term(p):
     p[0] = p[1]
+
 
 @_rule('term : term MULT_OP factor')
 def p_term_multiply(p):
@@ -36,6 +40,7 @@ def p_expression_fraction(p):
 def p_term_factor(p):
     p[0] = p[1]
 
+
 @_rule("factor : factor POWER factor")
 def p_term_power(p):
     p[0] = superscript(p[1], p[3])
@@ -45,13 +50,16 @@ def p_term_power(p):
 def p_term_subscript(p):
     p[0] = subscript(p[1], p[3])
 
+
 @_rule("factor : NUMBER")
 def p_factor_num(p):
     p[0] = number(p[1])
 
+
 @_rule("factor : SYMBOL")
 def p_factor_symbol(p):
     p[0] = symbol(p[1])
+
 
 @_rule("factor : MATHEMATICAL_ID OPEN_PAREN term CLOSE_PAREN")
 def p_factor_func(p):
