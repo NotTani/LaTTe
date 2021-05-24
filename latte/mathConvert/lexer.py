@@ -18,6 +18,7 @@ tokens = (
     "POWER",
     "SUBSCRIPT",
     "ENTITY",
+    "TEXT_FUNC",
 
     "ADDSUB_OP",
     "DIV_OP",
@@ -51,7 +52,13 @@ t_MATHEMATICAL_ID = r'sin|cos|ceil|floor|abs|sqrt'
 t_SYMBOL = r'[a-zA-Z]'
 t_POWER = r'\^'
 t_SUBSCRIPT = r'_'
-t_CONTROL_ID = '(?P<n>:[a-zA-Z]+)'
+t_CONTROL_ID = r'@(?P<n>[a-zA-Z]+)'
+
+
+@TOKEN(r'@text\((?P<i>.*?)\)')
+def t_TEXT_FUNC(t):
+    t.value = t.lexer.lexmatch.group('i')
+    return t
 
 
 @TOKEN(r'\ +')
@@ -75,10 +82,9 @@ def t_OP(t):
 
 t_OPEN_PAREN = r'\('
 t_CLOSE_PAREN = r'\)'
-t_OPEN_INVIS_PAREN = r'@g\{'
+t_OPEN_INVIS_PAREN = r'\{'
 t_CLOSE_INVIS_PAREN = r'\}'
 t_EQUALS = r'='
-
 
 # def t_error(error):
 #     raise InvalidLaTTeMath(error)

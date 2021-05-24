@@ -84,6 +84,11 @@ def p_factor_func(p):
         ])
 
 
+@_rule('factor : TEXT_FUNC')
+def p_expression_textfunc(p):
+    p[0] = text(p[1])
+
+
 @_rule('factor : OPEN_PAREN expression CLOSE_PAREN')
 def p_factor_parenthetical(p):
     p[0] = mrow([operator('('), p[2], operator(')')])

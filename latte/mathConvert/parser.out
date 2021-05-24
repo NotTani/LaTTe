@@ -20,14 +20,15 @@ Rule 10    factor -> factor SUBSCRIPT factor
 Rule 11    factor -> NUMBER
 Rule 12    factor -> SYMBOL
 Rule 13    factor -> MATHEMATICAL_ID OPEN_PAREN expression CLOSE_PAREN
-Rule 14    factor -> OPEN_PAREN expression CLOSE_PAREN
-Rule 15    factor -> OPEN_INVIS_PAREN expression CLOSE_INVIS_PAREN
+Rule 14    factor -> TEXT_FUNC
+Rule 15    factor -> OPEN_PAREN expression CLOSE_PAREN
+Rule 16    factor -> OPEN_INVIS_PAREN expression CLOSE_INVIS_PAREN
 
 Terminals, with rules where they appear
 
 ADDSUB_OP            : 3 8
-CLOSE_INVIS_PAREN    : 15
-CLOSE_PAREN          : 13 14
+CLOSE_INVIS_PAREN    : 16
+CLOSE_PAREN          : 13 15
 CONTROL_ID           : 
 DIV_OP               : 6
 ENTITY               : 1
@@ -35,16 +36,17 @@ EQUALS               : 2
 MATHEMATICAL_ID      : 13
 MULT_OP              : 5
 NUMBER               : 11
-OPEN_INVIS_PAREN     : 15
-OPEN_PAREN           : 13 14
+OPEN_INVIS_PAREN     : 16
+OPEN_PAREN           : 13 15
 POWER                : 9
 SUBSCRIPT            : 10
 SYMBOL               : 12
+TEXT_FUNC            : 14
 error                : 
 
 Nonterminals, with rules where they appear
 
-expression           : 1 1 2 2 3 13 14 15 0
+expression           : 1 1 2 2 3 13 15 16 0
 factor               : 5 6 7 9 9 10 10
 term                 : 3 4 5 6 8
 
@@ -66,15 +68,17 @@ state 0
     (11) factor -> . NUMBER
     (12) factor -> . SYMBOL
     (13) factor -> . MATHEMATICAL_ID OPEN_PAREN expression CLOSE_PAREN
-    (14) factor -> . OPEN_PAREN expression CLOSE_PAREN
-    (15) factor -> . OPEN_INVIS_PAREN expression CLOSE_INVIS_PAREN
+    (14) factor -> . TEXT_FUNC
+    (15) factor -> . OPEN_PAREN expression CLOSE_PAREN
+    (16) factor -> . OPEN_INVIS_PAREN expression CLOSE_INVIS_PAREN
 
     ADDSUB_OP       shift and go to state 2
     NUMBER          shift and go to state 5
     SYMBOL          shift and go to state 6
     MATHEMATICAL_ID shift and go to state 7
+    TEXT_FUNC       shift and go to state 9
     OPEN_PAREN      shift and go to state 8
-    OPEN_INVIS_PAREN shift and go to state 9
+    OPEN_INVIS_PAREN shift and go to state 10
 
     expression                     shift and go to state 1
     term                           shift and go to state 3
@@ -87,9 +91,9 @@ state 1
     (2) expression -> expression . EQUALS expression
     (3) expression -> expression . ADDSUB_OP term
 
-    ENTITY          shift and go to state 10
-    EQUALS          shift and go to state 11
-    ADDSUB_OP       shift and go to state 12
+    ENTITY          shift and go to state 11
+    EQUALS          shift and go to state 12
+    ADDSUB_OP       shift and go to state 13
 
 
 state 2
@@ -104,17 +108,19 @@ state 2
     (11) factor -> . NUMBER
     (12) factor -> . SYMBOL
     (13) factor -> . MATHEMATICAL_ID OPEN_PAREN expression CLOSE_PAREN
-    (14) factor -> . OPEN_PAREN expression CLOSE_PAREN
-    (15) factor -> . OPEN_INVIS_PAREN expression CLOSE_INVIS_PAREN
+    (14) factor -> . TEXT_FUNC
+    (15) factor -> . OPEN_PAREN expression CLOSE_PAREN
+    (16) factor -> . OPEN_INVIS_PAREN expression CLOSE_INVIS_PAREN
 
     ADDSUB_OP       shift and go to state 2
     NUMBER          shift and go to state 5
     SYMBOL          shift and go to state 6
     MATHEMATICAL_ID shift and go to state 7
+    TEXT_FUNC       shift and go to state 9
     OPEN_PAREN      shift and go to state 8
-    OPEN_INVIS_PAREN shift and go to state 9
+    OPEN_INVIS_PAREN shift and go to state 10
 
-    term                           shift and go to state 13
+    term                           shift and go to state 14
     factor                         shift and go to state 4
 
 state 3
@@ -129,8 +135,8 @@ state 3
     $end            reduce using rule 4 (expression -> term .)
     CLOSE_PAREN     reduce using rule 4 (expression -> term .)
     CLOSE_INVIS_PAREN reduce using rule 4 (expression -> term .)
-    MULT_OP         shift and go to state 14
-    DIV_OP          shift and go to state 15
+    MULT_OP         shift and go to state 15
+    DIV_OP          shift and go to state 16
 
 
 state 4
@@ -149,8 +155,8 @@ state 4
     $end            reduce using rule 7 (term -> factor .)
     CLOSE_PAREN     reduce using rule 7 (term -> factor .)
     CLOSE_INVIS_PAREN reduce using rule 7 (term -> factor .)
-    POWER           shift and go to state 16
-    SUBSCRIPT       shift and go to state 17
+    POWER           shift and go to state 17
+    SUBSCRIPT       shift and go to state 18
 
   ! POWER           [ reduce using rule 7 (term -> factor .) ]
   ! SUBSCRIPT       [ reduce using rule 7 (term -> factor .) ]
@@ -192,12 +198,12 @@ state 7
 
     (13) factor -> MATHEMATICAL_ID . OPEN_PAREN expression CLOSE_PAREN
 
-    OPEN_PAREN      shift and go to state 18
+    OPEN_PAREN      shift and go to state 19
 
 
 state 8
 
-    (14) factor -> OPEN_PAREN . expression CLOSE_PAREN
+    (15) factor -> OPEN_PAREN . expression CLOSE_PAREN
     (1) expression -> . expression ENTITY expression
     (2) expression -> . expression EQUALS expression
     (3) expression -> . expression ADDSUB_OP term
@@ -211,51 +217,71 @@ state 8
     (11) factor -> . NUMBER
     (12) factor -> . SYMBOL
     (13) factor -> . MATHEMATICAL_ID OPEN_PAREN expression CLOSE_PAREN
-    (14) factor -> . OPEN_PAREN expression CLOSE_PAREN
-    (15) factor -> . OPEN_INVIS_PAREN expression CLOSE_INVIS_PAREN
+    (14) factor -> . TEXT_FUNC
+    (15) factor -> . OPEN_PAREN expression CLOSE_PAREN
+    (16) factor -> . OPEN_INVIS_PAREN expression CLOSE_INVIS_PAREN
 
     ADDSUB_OP       shift and go to state 2
     NUMBER          shift and go to state 5
     SYMBOL          shift and go to state 6
     MATHEMATICAL_ID shift and go to state 7
+    TEXT_FUNC       shift and go to state 9
     OPEN_PAREN      shift and go to state 8
-    OPEN_INVIS_PAREN shift and go to state 9
-
-    expression                     shift and go to state 19
-    term                           shift and go to state 3
-    factor                         shift and go to state 4
-
-state 9
-
-    (15) factor -> OPEN_INVIS_PAREN . expression CLOSE_INVIS_PAREN
-    (1) expression -> . expression ENTITY expression
-    (2) expression -> . expression EQUALS expression
-    (3) expression -> . expression ADDSUB_OP term
-    (4) expression -> . term
-    (5) term -> . term MULT_OP factor
-    (6) term -> . term DIV_OP factor
-    (7) term -> . factor
-    (8) factor -> . ADDSUB_OP term
-    (9) factor -> . factor POWER factor
-    (10) factor -> . factor SUBSCRIPT factor
-    (11) factor -> . NUMBER
-    (12) factor -> . SYMBOL
-    (13) factor -> . MATHEMATICAL_ID OPEN_PAREN expression CLOSE_PAREN
-    (14) factor -> . OPEN_PAREN expression CLOSE_PAREN
-    (15) factor -> . OPEN_INVIS_PAREN expression CLOSE_INVIS_PAREN
-
-    ADDSUB_OP       shift and go to state 2
-    NUMBER          shift and go to state 5
-    SYMBOL          shift and go to state 6
-    MATHEMATICAL_ID shift and go to state 7
-    OPEN_PAREN      shift and go to state 8
-    OPEN_INVIS_PAREN shift and go to state 9
+    OPEN_INVIS_PAREN shift and go to state 10
 
     expression                     shift and go to state 20
     term                           shift and go to state 3
     factor                         shift and go to state 4
 
+state 9
+
+    (14) factor -> TEXT_FUNC .
+
+    POWER           reduce using rule 14 (factor -> TEXT_FUNC .)
+    SUBSCRIPT       reduce using rule 14 (factor -> TEXT_FUNC .)
+    MULT_OP         reduce using rule 14 (factor -> TEXT_FUNC .)
+    DIV_OP          reduce using rule 14 (factor -> TEXT_FUNC .)
+    ENTITY          reduce using rule 14 (factor -> TEXT_FUNC .)
+    EQUALS          reduce using rule 14 (factor -> TEXT_FUNC .)
+    ADDSUB_OP       reduce using rule 14 (factor -> TEXT_FUNC .)
+    $end            reduce using rule 14 (factor -> TEXT_FUNC .)
+    CLOSE_PAREN     reduce using rule 14 (factor -> TEXT_FUNC .)
+    CLOSE_INVIS_PAREN reduce using rule 14 (factor -> TEXT_FUNC .)
+
+
 state 10
+
+    (16) factor -> OPEN_INVIS_PAREN . expression CLOSE_INVIS_PAREN
+    (1) expression -> . expression ENTITY expression
+    (2) expression -> . expression EQUALS expression
+    (3) expression -> . expression ADDSUB_OP term
+    (4) expression -> . term
+    (5) term -> . term MULT_OP factor
+    (6) term -> . term DIV_OP factor
+    (7) term -> . factor
+    (8) factor -> . ADDSUB_OP term
+    (9) factor -> . factor POWER factor
+    (10) factor -> . factor SUBSCRIPT factor
+    (11) factor -> . NUMBER
+    (12) factor -> . SYMBOL
+    (13) factor -> . MATHEMATICAL_ID OPEN_PAREN expression CLOSE_PAREN
+    (14) factor -> . TEXT_FUNC
+    (15) factor -> . OPEN_PAREN expression CLOSE_PAREN
+    (16) factor -> . OPEN_INVIS_PAREN expression CLOSE_INVIS_PAREN
+
+    ADDSUB_OP       shift and go to state 2
+    NUMBER          shift and go to state 5
+    SYMBOL          shift and go to state 6
+    MATHEMATICAL_ID shift and go to state 7
+    TEXT_FUNC       shift and go to state 9
+    OPEN_PAREN      shift and go to state 8
+    OPEN_INVIS_PAREN shift and go to state 10
+
+    expression                     shift and go to state 21
+    term                           shift and go to state 3
+    factor                         shift and go to state 4
+
+state 11
 
     (1) expression -> expression ENTITY . expression
     (1) expression -> . expression ENTITY expression
@@ -271,21 +297,23 @@ state 10
     (11) factor -> . NUMBER
     (12) factor -> . SYMBOL
     (13) factor -> . MATHEMATICAL_ID OPEN_PAREN expression CLOSE_PAREN
-    (14) factor -> . OPEN_PAREN expression CLOSE_PAREN
-    (15) factor -> . OPEN_INVIS_PAREN expression CLOSE_INVIS_PAREN
+    (14) factor -> . TEXT_FUNC
+    (15) factor -> . OPEN_PAREN expression CLOSE_PAREN
+    (16) factor -> . OPEN_INVIS_PAREN expression CLOSE_INVIS_PAREN
 
     ADDSUB_OP       shift and go to state 2
     NUMBER          shift and go to state 5
     SYMBOL          shift and go to state 6
     MATHEMATICAL_ID shift and go to state 7
+    TEXT_FUNC       shift and go to state 9
     OPEN_PAREN      shift and go to state 8
-    OPEN_INVIS_PAREN shift and go to state 9
+    OPEN_INVIS_PAREN shift and go to state 10
 
-    expression                     shift and go to state 21
+    expression                     shift and go to state 22
     term                           shift and go to state 3
     factor                         shift and go to state 4
 
-state 11
+state 12
 
     (2) expression -> expression EQUALS . expression
     (1) expression -> . expression ENTITY expression
@@ -301,21 +329,23 @@ state 11
     (11) factor -> . NUMBER
     (12) factor -> . SYMBOL
     (13) factor -> . MATHEMATICAL_ID OPEN_PAREN expression CLOSE_PAREN
-    (14) factor -> . OPEN_PAREN expression CLOSE_PAREN
-    (15) factor -> . OPEN_INVIS_PAREN expression CLOSE_INVIS_PAREN
+    (14) factor -> . TEXT_FUNC
+    (15) factor -> . OPEN_PAREN expression CLOSE_PAREN
+    (16) factor -> . OPEN_INVIS_PAREN expression CLOSE_INVIS_PAREN
 
     ADDSUB_OP       shift and go to state 2
     NUMBER          shift and go to state 5
     SYMBOL          shift and go to state 6
     MATHEMATICAL_ID shift and go to state 7
+    TEXT_FUNC       shift and go to state 9
     OPEN_PAREN      shift and go to state 8
-    OPEN_INVIS_PAREN shift and go to state 9
+    OPEN_INVIS_PAREN shift and go to state 10
 
-    expression                     shift and go to state 22
+    expression                     shift and go to state 23
     term                           shift and go to state 3
     factor                         shift and go to state 4
 
-state 12
+state 13
 
     (3) expression -> expression ADDSUB_OP . term
     (5) term -> . term MULT_OP factor
@@ -327,20 +357,22 @@ state 12
     (11) factor -> . NUMBER
     (12) factor -> . SYMBOL
     (13) factor -> . MATHEMATICAL_ID OPEN_PAREN expression CLOSE_PAREN
-    (14) factor -> . OPEN_PAREN expression CLOSE_PAREN
-    (15) factor -> . OPEN_INVIS_PAREN expression CLOSE_INVIS_PAREN
+    (14) factor -> . TEXT_FUNC
+    (15) factor -> . OPEN_PAREN expression CLOSE_PAREN
+    (16) factor -> . OPEN_INVIS_PAREN expression CLOSE_INVIS_PAREN
 
     ADDSUB_OP       shift and go to state 2
     NUMBER          shift and go to state 5
     SYMBOL          shift and go to state 6
     MATHEMATICAL_ID shift and go to state 7
+    TEXT_FUNC       shift and go to state 9
     OPEN_PAREN      shift and go to state 8
-    OPEN_INVIS_PAREN shift and go to state 9
+    OPEN_INVIS_PAREN shift and go to state 10
 
-    term                           shift and go to state 23
+    term                           shift and go to state 24
     factor                         shift and go to state 4
 
-state 13
+state 14
 
     (8) factor -> ADDSUB_OP term .
     (5) term -> term . MULT_OP factor
@@ -356,14 +388,14 @@ state 13
     $end            reduce using rule 8 (factor -> ADDSUB_OP term .)
     CLOSE_PAREN     reduce using rule 8 (factor -> ADDSUB_OP term .)
     CLOSE_INVIS_PAREN reduce using rule 8 (factor -> ADDSUB_OP term .)
-    MULT_OP         shift and go to state 14
-    DIV_OP          shift and go to state 15
+    MULT_OP         shift and go to state 15
+    DIV_OP          shift and go to state 16
 
   ! MULT_OP         [ reduce using rule 8 (factor -> ADDSUB_OP term .) ]
   ! DIV_OP          [ reduce using rule 8 (factor -> ADDSUB_OP term .) ]
 
 
-state 14
+state 15
 
     (5) term -> term MULT_OP . factor
     (8) factor -> . ADDSUB_OP term
@@ -372,19 +404,21 @@ state 14
     (11) factor -> . NUMBER
     (12) factor -> . SYMBOL
     (13) factor -> . MATHEMATICAL_ID OPEN_PAREN expression CLOSE_PAREN
-    (14) factor -> . OPEN_PAREN expression CLOSE_PAREN
-    (15) factor -> . OPEN_INVIS_PAREN expression CLOSE_INVIS_PAREN
+    (14) factor -> . TEXT_FUNC
+    (15) factor -> . OPEN_PAREN expression CLOSE_PAREN
+    (16) factor -> . OPEN_INVIS_PAREN expression CLOSE_INVIS_PAREN
 
     ADDSUB_OP       shift and go to state 2
     NUMBER          shift and go to state 5
     SYMBOL          shift and go to state 6
     MATHEMATICAL_ID shift and go to state 7
+    TEXT_FUNC       shift and go to state 9
     OPEN_PAREN      shift and go to state 8
-    OPEN_INVIS_PAREN shift and go to state 9
+    OPEN_INVIS_PAREN shift and go to state 10
 
-    factor                         shift and go to state 24
+    factor                         shift and go to state 25
 
-state 15
+state 16
 
     (6) term -> term DIV_OP . factor
     (8) factor -> . ADDSUB_OP term
@@ -393,19 +427,21 @@ state 15
     (11) factor -> . NUMBER
     (12) factor -> . SYMBOL
     (13) factor -> . MATHEMATICAL_ID OPEN_PAREN expression CLOSE_PAREN
-    (14) factor -> . OPEN_PAREN expression CLOSE_PAREN
-    (15) factor -> . OPEN_INVIS_PAREN expression CLOSE_INVIS_PAREN
+    (14) factor -> . TEXT_FUNC
+    (15) factor -> . OPEN_PAREN expression CLOSE_PAREN
+    (16) factor -> . OPEN_INVIS_PAREN expression CLOSE_INVIS_PAREN
 
     ADDSUB_OP       shift and go to state 2
     NUMBER          shift and go to state 5
     SYMBOL          shift and go to state 6
     MATHEMATICAL_ID shift and go to state 7
+    TEXT_FUNC       shift and go to state 9
     OPEN_PAREN      shift and go to state 8
-    OPEN_INVIS_PAREN shift and go to state 9
+    OPEN_INVIS_PAREN shift and go to state 10
 
-    factor                         shift and go to state 25
+    factor                         shift and go to state 26
 
-state 16
+state 17
 
     (9) factor -> factor POWER . factor
     (8) factor -> . ADDSUB_OP term
@@ -414,19 +450,21 @@ state 16
     (11) factor -> . NUMBER
     (12) factor -> . SYMBOL
     (13) factor -> . MATHEMATICAL_ID OPEN_PAREN expression CLOSE_PAREN
-    (14) factor -> . OPEN_PAREN expression CLOSE_PAREN
-    (15) factor -> . OPEN_INVIS_PAREN expression CLOSE_INVIS_PAREN
+    (14) factor -> . TEXT_FUNC
+    (15) factor -> . OPEN_PAREN expression CLOSE_PAREN
+    (16) factor -> . OPEN_INVIS_PAREN expression CLOSE_INVIS_PAREN
 
     ADDSUB_OP       shift and go to state 2
     NUMBER          shift and go to state 5
     SYMBOL          shift and go to state 6
     MATHEMATICAL_ID shift and go to state 7
+    TEXT_FUNC       shift and go to state 9
     OPEN_PAREN      shift and go to state 8
-    OPEN_INVIS_PAREN shift and go to state 9
+    OPEN_INVIS_PAREN shift and go to state 10
 
-    factor                         shift and go to state 26
+    factor                         shift and go to state 27
 
-state 17
+state 18
 
     (10) factor -> factor SUBSCRIPT . factor
     (8) factor -> . ADDSUB_OP term
@@ -435,19 +473,21 @@ state 17
     (11) factor -> . NUMBER
     (12) factor -> . SYMBOL
     (13) factor -> . MATHEMATICAL_ID OPEN_PAREN expression CLOSE_PAREN
-    (14) factor -> . OPEN_PAREN expression CLOSE_PAREN
-    (15) factor -> . OPEN_INVIS_PAREN expression CLOSE_INVIS_PAREN
+    (14) factor -> . TEXT_FUNC
+    (15) factor -> . OPEN_PAREN expression CLOSE_PAREN
+    (16) factor -> . OPEN_INVIS_PAREN expression CLOSE_INVIS_PAREN
 
     ADDSUB_OP       shift and go to state 2
     NUMBER          shift and go to state 5
     SYMBOL          shift and go to state 6
     MATHEMATICAL_ID shift and go to state 7
+    TEXT_FUNC       shift and go to state 9
     OPEN_PAREN      shift and go to state 8
-    OPEN_INVIS_PAREN shift and go to state 9
+    OPEN_INVIS_PAREN shift and go to state 10
 
-    factor                         shift and go to state 27
+    factor                         shift and go to state 28
 
-state 18
+state 19
 
     (13) factor -> MATHEMATICAL_ID OPEN_PAREN . expression CLOSE_PAREN
     (1) expression -> . expression ENTITY expression
@@ -463,47 +503,49 @@ state 18
     (11) factor -> . NUMBER
     (12) factor -> . SYMBOL
     (13) factor -> . MATHEMATICAL_ID OPEN_PAREN expression CLOSE_PAREN
-    (14) factor -> . OPEN_PAREN expression CLOSE_PAREN
-    (15) factor -> . OPEN_INVIS_PAREN expression CLOSE_INVIS_PAREN
+    (14) factor -> . TEXT_FUNC
+    (15) factor -> . OPEN_PAREN expression CLOSE_PAREN
+    (16) factor -> . OPEN_INVIS_PAREN expression CLOSE_INVIS_PAREN
 
     ADDSUB_OP       shift and go to state 2
     NUMBER          shift and go to state 5
     SYMBOL          shift and go to state 6
     MATHEMATICAL_ID shift and go to state 7
+    TEXT_FUNC       shift and go to state 9
     OPEN_PAREN      shift and go to state 8
-    OPEN_INVIS_PAREN shift and go to state 9
+    OPEN_INVIS_PAREN shift and go to state 10
 
-    expression                     shift and go to state 28
+    expression                     shift and go to state 29
     term                           shift and go to state 3
     factor                         shift and go to state 4
 
-state 19
-
-    (14) factor -> OPEN_PAREN expression . CLOSE_PAREN
-    (1) expression -> expression . ENTITY expression
-    (2) expression -> expression . EQUALS expression
-    (3) expression -> expression . ADDSUB_OP term
-
-    CLOSE_PAREN     shift and go to state 29
-    ENTITY          shift and go to state 10
-    EQUALS          shift and go to state 11
-    ADDSUB_OP       shift and go to state 12
-
-
 state 20
 
-    (15) factor -> OPEN_INVIS_PAREN expression . CLOSE_INVIS_PAREN
+    (15) factor -> OPEN_PAREN expression . CLOSE_PAREN
     (1) expression -> expression . ENTITY expression
     (2) expression -> expression . EQUALS expression
     (3) expression -> expression . ADDSUB_OP term
 
-    CLOSE_INVIS_PAREN shift and go to state 30
-    ENTITY          shift and go to state 10
-    EQUALS          shift and go to state 11
-    ADDSUB_OP       shift and go to state 12
+    CLOSE_PAREN     shift and go to state 30
+    ENTITY          shift and go to state 11
+    EQUALS          shift and go to state 12
+    ADDSUB_OP       shift and go to state 13
 
 
 state 21
+
+    (16) factor -> OPEN_INVIS_PAREN expression . CLOSE_INVIS_PAREN
+    (1) expression -> expression . ENTITY expression
+    (2) expression -> expression . EQUALS expression
+    (3) expression -> expression . ADDSUB_OP term
+
+    CLOSE_INVIS_PAREN shift and go to state 31
+    ENTITY          shift and go to state 11
+    EQUALS          shift and go to state 12
+    ADDSUB_OP       shift and go to state 13
+
+
+state 22
 
     (1) expression -> expression ENTITY expression .
     (1) expression -> expression . ENTITY expression
@@ -516,16 +558,16 @@ state 21
     $end            reduce using rule 1 (expression -> expression ENTITY expression .)
     CLOSE_PAREN     reduce using rule 1 (expression -> expression ENTITY expression .)
     CLOSE_INVIS_PAREN reduce using rule 1 (expression -> expression ENTITY expression .)
-    ENTITY          shift and go to state 10
-    EQUALS          shift and go to state 11
-    ADDSUB_OP       shift and go to state 12
+    ENTITY          shift and go to state 11
+    EQUALS          shift and go to state 12
+    ADDSUB_OP       shift and go to state 13
 
   ! ENTITY          [ reduce using rule 1 (expression -> expression ENTITY expression .) ]
   ! EQUALS          [ reduce using rule 1 (expression -> expression ENTITY expression .) ]
   ! ADDSUB_OP       [ reduce using rule 1 (expression -> expression ENTITY expression .) ]
 
 
-state 22
+state 23
 
     (2) expression -> expression EQUALS expression .
     (1) expression -> expression . ENTITY expression
@@ -538,16 +580,16 @@ state 22
     $end            reduce using rule 2 (expression -> expression EQUALS expression .)
     CLOSE_PAREN     reduce using rule 2 (expression -> expression EQUALS expression .)
     CLOSE_INVIS_PAREN reduce using rule 2 (expression -> expression EQUALS expression .)
-    ENTITY          shift and go to state 10
-    EQUALS          shift and go to state 11
-    ADDSUB_OP       shift and go to state 12
+    ENTITY          shift and go to state 11
+    EQUALS          shift and go to state 12
+    ADDSUB_OP       shift and go to state 13
 
   ! ENTITY          [ reduce using rule 2 (expression -> expression EQUALS expression .) ]
   ! EQUALS          [ reduce using rule 2 (expression -> expression EQUALS expression .) ]
   ! ADDSUB_OP       [ reduce using rule 2 (expression -> expression EQUALS expression .) ]
 
 
-state 23
+state 24
 
     (3) expression -> expression ADDSUB_OP term .
     (5) term -> term . MULT_OP factor
@@ -559,11 +601,11 @@ state 23
     $end            reduce using rule 3 (expression -> expression ADDSUB_OP term .)
     CLOSE_PAREN     reduce using rule 3 (expression -> expression ADDSUB_OP term .)
     CLOSE_INVIS_PAREN reduce using rule 3 (expression -> expression ADDSUB_OP term .)
-    MULT_OP         shift and go to state 14
-    DIV_OP          shift and go to state 15
+    MULT_OP         shift and go to state 15
+    DIV_OP          shift and go to state 16
 
 
-state 24
+state 25
 
     (5) term -> term MULT_OP factor .
     (9) factor -> factor . POWER factor
@@ -579,14 +621,14 @@ state 24
     $end            reduce using rule 5 (term -> term MULT_OP factor .)
     CLOSE_PAREN     reduce using rule 5 (term -> term MULT_OP factor .)
     CLOSE_INVIS_PAREN reduce using rule 5 (term -> term MULT_OP factor .)
-    POWER           shift and go to state 16
-    SUBSCRIPT       shift and go to state 17
+    POWER           shift and go to state 17
+    SUBSCRIPT       shift and go to state 18
 
   ! POWER           [ reduce using rule 5 (term -> term MULT_OP factor .) ]
   ! SUBSCRIPT       [ reduce using rule 5 (term -> term MULT_OP factor .) ]
 
 
-state 25
+state 26
 
     (6) term -> term DIV_OP factor .
     (9) factor -> factor . POWER factor
@@ -602,14 +644,14 @@ state 25
     $end            reduce using rule 6 (term -> term DIV_OP factor .)
     CLOSE_PAREN     reduce using rule 6 (term -> term DIV_OP factor .)
     CLOSE_INVIS_PAREN reduce using rule 6 (term -> term DIV_OP factor .)
-    POWER           shift and go to state 16
-    SUBSCRIPT       shift and go to state 17
+    POWER           shift and go to state 17
+    SUBSCRIPT       shift and go to state 18
 
   ! POWER           [ reduce using rule 6 (term -> term DIV_OP factor .) ]
   ! SUBSCRIPT       [ reduce using rule 6 (term -> term DIV_OP factor .) ]
 
 
-state 26
+state 27
 
     (9) factor -> factor POWER factor .
     (9) factor -> factor . POWER factor
@@ -625,14 +667,14 @@ state 26
     $end            reduce using rule 9 (factor -> factor POWER factor .)
     CLOSE_PAREN     reduce using rule 9 (factor -> factor POWER factor .)
     CLOSE_INVIS_PAREN reduce using rule 9 (factor -> factor POWER factor .)
-    POWER           shift and go to state 16
-    SUBSCRIPT       shift and go to state 17
+    POWER           shift and go to state 17
+    SUBSCRIPT       shift and go to state 18
 
   ! POWER           [ reduce using rule 9 (factor -> factor POWER factor .) ]
   ! SUBSCRIPT       [ reduce using rule 9 (factor -> factor POWER factor .) ]
 
 
-state 27
+state 28
 
     (10) factor -> factor SUBSCRIPT factor .
     (9) factor -> factor . POWER factor
@@ -648,59 +690,59 @@ state 27
     $end            reduce using rule 10 (factor -> factor SUBSCRIPT factor .)
     CLOSE_PAREN     reduce using rule 10 (factor -> factor SUBSCRIPT factor .)
     CLOSE_INVIS_PAREN reduce using rule 10 (factor -> factor SUBSCRIPT factor .)
-    POWER           shift and go to state 16
-    SUBSCRIPT       shift and go to state 17
+    POWER           shift and go to state 17
+    SUBSCRIPT       shift and go to state 18
 
   ! POWER           [ reduce using rule 10 (factor -> factor SUBSCRIPT factor .) ]
   ! SUBSCRIPT       [ reduce using rule 10 (factor -> factor SUBSCRIPT factor .) ]
 
 
-state 28
+state 29
 
     (13) factor -> MATHEMATICAL_ID OPEN_PAREN expression . CLOSE_PAREN
     (1) expression -> expression . ENTITY expression
     (2) expression -> expression . EQUALS expression
     (3) expression -> expression . ADDSUB_OP term
 
-    CLOSE_PAREN     shift and go to state 31
-    ENTITY          shift and go to state 10
-    EQUALS          shift and go to state 11
-    ADDSUB_OP       shift and go to state 12
-
-
-state 29
-
-    (14) factor -> OPEN_PAREN expression CLOSE_PAREN .
-
-    POWER           reduce using rule 14 (factor -> OPEN_PAREN expression CLOSE_PAREN .)
-    SUBSCRIPT       reduce using rule 14 (factor -> OPEN_PAREN expression CLOSE_PAREN .)
-    MULT_OP         reduce using rule 14 (factor -> OPEN_PAREN expression CLOSE_PAREN .)
-    DIV_OP          reduce using rule 14 (factor -> OPEN_PAREN expression CLOSE_PAREN .)
-    ENTITY          reduce using rule 14 (factor -> OPEN_PAREN expression CLOSE_PAREN .)
-    EQUALS          reduce using rule 14 (factor -> OPEN_PAREN expression CLOSE_PAREN .)
-    ADDSUB_OP       reduce using rule 14 (factor -> OPEN_PAREN expression CLOSE_PAREN .)
-    $end            reduce using rule 14 (factor -> OPEN_PAREN expression CLOSE_PAREN .)
-    CLOSE_PAREN     reduce using rule 14 (factor -> OPEN_PAREN expression CLOSE_PAREN .)
-    CLOSE_INVIS_PAREN reduce using rule 14 (factor -> OPEN_PAREN expression CLOSE_PAREN .)
+    CLOSE_PAREN     shift and go to state 32
+    ENTITY          shift and go to state 11
+    EQUALS          shift and go to state 12
+    ADDSUB_OP       shift and go to state 13
 
 
 state 30
 
-    (15) factor -> OPEN_INVIS_PAREN expression CLOSE_INVIS_PAREN .
+    (15) factor -> OPEN_PAREN expression CLOSE_PAREN .
 
-    POWER           reduce using rule 15 (factor -> OPEN_INVIS_PAREN expression CLOSE_INVIS_PAREN .)
-    SUBSCRIPT       reduce using rule 15 (factor -> OPEN_INVIS_PAREN expression CLOSE_INVIS_PAREN .)
-    MULT_OP         reduce using rule 15 (factor -> OPEN_INVIS_PAREN expression CLOSE_INVIS_PAREN .)
-    DIV_OP          reduce using rule 15 (factor -> OPEN_INVIS_PAREN expression CLOSE_INVIS_PAREN .)
-    ENTITY          reduce using rule 15 (factor -> OPEN_INVIS_PAREN expression CLOSE_INVIS_PAREN .)
-    EQUALS          reduce using rule 15 (factor -> OPEN_INVIS_PAREN expression CLOSE_INVIS_PAREN .)
-    ADDSUB_OP       reduce using rule 15 (factor -> OPEN_INVIS_PAREN expression CLOSE_INVIS_PAREN .)
-    $end            reduce using rule 15 (factor -> OPEN_INVIS_PAREN expression CLOSE_INVIS_PAREN .)
-    CLOSE_PAREN     reduce using rule 15 (factor -> OPEN_INVIS_PAREN expression CLOSE_INVIS_PAREN .)
-    CLOSE_INVIS_PAREN reduce using rule 15 (factor -> OPEN_INVIS_PAREN expression CLOSE_INVIS_PAREN .)
+    POWER           reduce using rule 15 (factor -> OPEN_PAREN expression CLOSE_PAREN .)
+    SUBSCRIPT       reduce using rule 15 (factor -> OPEN_PAREN expression CLOSE_PAREN .)
+    MULT_OP         reduce using rule 15 (factor -> OPEN_PAREN expression CLOSE_PAREN .)
+    DIV_OP          reduce using rule 15 (factor -> OPEN_PAREN expression CLOSE_PAREN .)
+    ENTITY          reduce using rule 15 (factor -> OPEN_PAREN expression CLOSE_PAREN .)
+    EQUALS          reduce using rule 15 (factor -> OPEN_PAREN expression CLOSE_PAREN .)
+    ADDSUB_OP       reduce using rule 15 (factor -> OPEN_PAREN expression CLOSE_PAREN .)
+    $end            reduce using rule 15 (factor -> OPEN_PAREN expression CLOSE_PAREN .)
+    CLOSE_PAREN     reduce using rule 15 (factor -> OPEN_PAREN expression CLOSE_PAREN .)
+    CLOSE_INVIS_PAREN reduce using rule 15 (factor -> OPEN_PAREN expression CLOSE_PAREN .)
 
 
 state 31
+
+    (16) factor -> OPEN_INVIS_PAREN expression CLOSE_INVIS_PAREN .
+
+    POWER           reduce using rule 16 (factor -> OPEN_INVIS_PAREN expression CLOSE_INVIS_PAREN .)
+    SUBSCRIPT       reduce using rule 16 (factor -> OPEN_INVIS_PAREN expression CLOSE_INVIS_PAREN .)
+    MULT_OP         reduce using rule 16 (factor -> OPEN_INVIS_PAREN expression CLOSE_INVIS_PAREN .)
+    DIV_OP          reduce using rule 16 (factor -> OPEN_INVIS_PAREN expression CLOSE_INVIS_PAREN .)
+    ENTITY          reduce using rule 16 (factor -> OPEN_INVIS_PAREN expression CLOSE_INVIS_PAREN .)
+    EQUALS          reduce using rule 16 (factor -> OPEN_INVIS_PAREN expression CLOSE_INVIS_PAREN .)
+    ADDSUB_OP       reduce using rule 16 (factor -> OPEN_INVIS_PAREN expression CLOSE_INVIS_PAREN .)
+    $end            reduce using rule 16 (factor -> OPEN_INVIS_PAREN expression CLOSE_INVIS_PAREN .)
+    CLOSE_PAREN     reduce using rule 16 (factor -> OPEN_INVIS_PAREN expression CLOSE_INVIS_PAREN .)
+    CLOSE_INVIS_PAREN reduce using rule 16 (factor -> OPEN_INVIS_PAREN expression CLOSE_INVIS_PAREN .)
+
+
+state 32
 
     (13) factor -> MATHEMATICAL_ID OPEN_PAREN expression CLOSE_PAREN .
 
@@ -720,19 +762,19 @@ WARNING: Conflicts:
 WARNING: 
 WARNING: shift/reduce conflict for POWER in state 4 resolved as shift
 WARNING: shift/reduce conflict for SUBSCRIPT in state 4 resolved as shift
-WARNING: shift/reduce conflict for MULT_OP in state 13 resolved as shift
-WARNING: shift/reduce conflict for DIV_OP in state 13 resolved as shift
-WARNING: shift/reduce conflict for ENTITY in state 21 resolved as shift
-WARNING: shift/reduce conflict for EQUALS in state 21 resolved as shift
-WARNING: shift/reduce conflict for ADDSUB_OP in state 21 resolved as shift
+WARNING: shift/reduce conflict for MULT_OP in state 14 resolved as shift
+WARNING: shift/reduce conflict for DIV_OP in state 14 resolved as shift
 WARNING: shift/reduce conflict for ENTITY in state 22 resolved as shift
 WARNING: shift/reduce conflict for EQUALS in state 22 resolved as shift
 WARNING: shift/reduce conflict for ADDSUB_OP in state 22 resolved as shift
-WARNING: shift/reduce conflict for POWER in state 24 resolved as shift
-WARNING: shift/reduce conflict for SUBSCRIPT in state 24 resolved as shift
+WARNING: shift/reduce conflict for ENTITY in state 23 resolved as shift
+WARNING: shift/reduce conflict for EQUALS in state 23 resolved as shift
+WARNING: shift/reduce conflict for ADDSUB_OP in state 23 resolved as shift
 WARNING: shift/reduce conflict for POWER in state 25 resolved as shift
 WARNING: shift/reduce conflict for SUBSCRIPT in state 25 resolved as shift
 WARNING: shift/reduce conflict for POWER in state 26 resolved as shift
 WARNING: shift/reduce conflict for SUBSCRIPT in state 26 resolved as shift
 WARNING: shift/reduce conflict for POWER in state 27 resolved as shift
 WARNING: shift/reduce conflict for SUBSCRIPT in state 27 resolved as shift
+WARNING: shift/reduce conflict for POWER in state 28 resolved as shift
+WARNING: shift/reduce conflict for SUBSCRIPT in state 28 resolved as shift
