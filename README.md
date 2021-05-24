@@ -7,6 +7,7 @@ and custom extensions.
 ## State of the project
 * **Math formatting language** -- base implemented (lexer, parser, MathML generator), no public facing APIs at the 
   moment
+* **Web interface** -- basic version working well, could do with better error reporting
 * **Proof/formal logic block** -- started
 * **Unified Block API** -- started
 * **Publishing to PyPi/Build Workflow** -- started
