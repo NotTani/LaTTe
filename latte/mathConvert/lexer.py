@@ -12,6 +12,7 @@ MATHEMATICAL_FUNCTIONS = [
 
 tokens = (
     "MATHEMATICAL_ID",
+    "SYMBOL",
     "NUMBER",
     "EQUALS",
     "POWER",
@@ -21,10 +22,11 @@ tokens = (
     "ADDSUB_OP",
     "DIV_OP",
     "MULT_OP",
-    "SYMBOL",
     "CONTROL_ID",
     "OPEN_PAREN",
     "CLOSE_PAREN",
+    "OPEN_INVIS_PAREN",
+    "CLOSE_INVIS_PAREN"
 )
 
 parens = {
@@ -46,7 +48,7 @@ def t_ENTITY(t):
 
 
 t_MATHEMATICAL_ID = r'sin|cos|ceil|floor|abs|sqrt'
-t_SYMBOL = r'-?(?P<n>[a-zA-Z])'
+t_SYMBOL = r'[a-zA-Z]'
 t_POWER = r'\^'
 t_SUBSCRIPT = r'_'
 t_CONTROL_ID = '(?P<n>:[a-zA-Z]+)'
@@ -73,6 +75,8 @@ def t_OP(t):
 
 t_OPEN_PAREN = r'\('
 t_CLOSE_PAREN = r'\)'
+t_OPEN_INVIS_PAREN = r'@g\{'
+t_CLOSE_INVIS_PAREN = r'\}'
 t_EQUALS = r'='
 
 

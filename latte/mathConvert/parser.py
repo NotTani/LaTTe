@@ -11,6 +11,11 @@ def _rule(docstring):
     return decorator
 
 
+@_rule('expression : expression ENTITY expression')
+def p_expression_entity(p):
+    p[0] = mrow([p[1], special_char(p[2]), p[3]])
+
+
 @_rule('expression : expression EQUALS expression')
 def p_expression_equals(p):
     p[0] = mrow([p[1], operator('='), p[3]])
@@ -39,6 +44,11 @@ def p_expression_fraction(p):
 @_rule("term : factor")
 def p_term_factor(p):
     p[0] = p[1]
+
+
+@_rule("factor : ADDSUB_OP term")
+def p_negative(p):
+    p[0] = mrow([operator(p[1]), p[2]])
 
 
 @_rule("factor : factor POWER factor")
@@ -74,14 +84,14 @@ def p_factor_func(p):
         ])
 
 
-@_rule('factor : ENTITY')
-def p_factor_entity(p):
-    p[0] = special_char(p[1])
-
-
 @_rule('factor : OPEN_PAREN expression CLOSE_PAREN')
 def p_factor_parenthetical(p):
     p[0] = mrow([operator('('), p[2], operator(')')])
+
+
+@_rule('factor : OPEN_INVIS_PAREN expression CLOSE_INVIS_PAREN')
+def p_factor_invis_paren(p):
+    p[0] = p[2]
 
 
 parser = yacc.yacc()
