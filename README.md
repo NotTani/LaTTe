@@ -1,7 +1,7 @@
 ![LaTTe Logo](https://github.com/NotTani/LaTTe/blob/main/project/logo.png?raw=true)
 
 LaTTe is an open source Python-Markdown extension meant to make math formatting easy.
-It's math syntax is quite similar to AsciiMath, but with more granular formatting controls
+Its math syntax is quite similar to AsciiMath, but with more granular formatting controls
 and custom extensions.
 
 ## State of the project
